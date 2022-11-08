@@ -9,6 +9,7 @@ Original file is located at
 
 import numpy as np
 from numpy.fft import fft2, ifft2
+import cv2
 
 
 class AugmentImage():

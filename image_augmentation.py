@@ -152,7 +152,10 @@ class AugmentImage():
     w = np.conj(tmp_fft2_kernel) / (np.conj(tmp_fft2_kernel) * tmp_fft2_kernel + Lambda)
     out = np.zeros((np_data.shape))
     hight, width, channel = np_data.shape
-    for i in range(channel):
-      out[i] = np.real(ifft2(w * fft2(np_data[:,:,i])))
+    if (channel == 1):
+      out = np.real(ifft2(w * fft2(np_data[:,:])))
+    else:
+      for i in range(channel):
+        out[i] = np.real(ifft2(w * fft2(np_data[:,:,i])))
 
     return out

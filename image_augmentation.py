@@ -127,6 +127,8 @@ class AugmentImage():
        - isDisc: True - disc function, False - disc_rand function
        - Lamda: signal to noise ratio
     '''
+    hight, width, channel = np_data.shape
+    print(hight, width, channel)
     #get random size of kernel
     size_kernel = [1, 3, 5]
     np.random.shuffle(size_kernel)
@@ -150,8 +152,6 @@ class AugmentImage():
     tmp_kernel = np.pad(tmp_kernel,((0, pad_hight), (0, pad_width)))
     tmp_fft2_kernel = fft2(tmp_kernel)
     w = np.conj(tmp_fft2_kernel) / (np.conj(tmp_fft2_kernel) * tmp_fft2_kernel + Lambda)
-    hight, width, channel = np_data.shape
-    print(hight, width, channel)
     if (channel == 1):
       out = np.real(ifft2(w * fft2(np_data[:,:,0])))
     else:

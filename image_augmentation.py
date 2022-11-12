@@ -100,7 +100,7 @@ class AugmentImage():
        - tmp_data: rotated image
        - theta: rotation angle
     '''
-    theta = np.random.uniform(low=-180., high=180., size=1)[0]
+    theta = np.random.uniform(low=self.roatation_range[0], high=self.roatation_range[1], size=1)[0]
     hight, width, channel = np_data.shape
     M = cv2.getRotationMatrix2D((width / 2, hight / 2), theta, 1)
     tmp_data = cv2.warpAffine(np_data, M, (width, hight))

@@ -1,5 +1,0 @@
-# ImageAugmentation requirements
-# Usage: pip install -r requirements.txt
-
-numpy
-cv2

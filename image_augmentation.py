@@ -153,7 +153,7 @@ class AugmentImage():
     out = np.zeros((np_data.shape))
     hight, width, channel = np_data.shape
     if (channel == 1):
-      out = np.real(ifft2(w * fft2(np_data[:,:])))
+      out = np.real(ifft2(w * fft2(np_data[:,:,0])))
     else:
       for i in range(channel):
         out[i] = np.real(ifft2(w * fft2(np_data[:,:,i])))

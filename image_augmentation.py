@@ -10,6 +10,10 @@ class AugmentImage():
     
                               #0  = noise, 1 =  rotationAndNoise, 2 =  Wiener
     self.lst_augmented_func = [self.noise, self.rotationAndNoise, self.Wiener]
+    self.roatation_range = (-180., 180)
+  
+  def setRotationAngel(self, low=-180., high=180.):
+    self.roatation_range = (low, high)
   
   def getAugmentFunc(self, idx_func):
     '''

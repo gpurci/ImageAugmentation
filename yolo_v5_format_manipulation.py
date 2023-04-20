@@ -85,16 +85,12 @@ def groupDetectObjYoloV5Format(str_class_name, src_path, dst_path, height, width
     print(filename)
     try:
       img = cv2.imread(filename)
-      print('try')
     except:
-      print('except')
       pass
     try:
       lst_X = cutBoxObjImage(img, dict_obj_classified[key_name], height, width)
       lst_y = dict_obj_classified[key_name]['score']
-      print('Good')
     except:
-      print('Error')
       lst_X, lst_y = [], []
 
     for x, y in zip(lst_X, lst_y):

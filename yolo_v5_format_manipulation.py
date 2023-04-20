@@ -73,7 +73,7 @@ def getLabels(path, dict_score):
 
 
 #function to group the detected object by group of class 
-def groupDetectObj(str_class_name, class_path, labels_path, lst_filename, height, width):
+def groupDetectObj(str_class_name, class_path, labels_path, lst_filename_img, height, width):
   dict_score = getClassName(str_class_name)
   dict_obj_classified = getLabels(labels_path, dict_score)
   name_new_img = 0

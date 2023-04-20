@@ -73,27 +73,35 @@ def getLabels(path, dict_score):
 
 
 #function to group the detected object by group of class 
-def groupDetectObj(str_class_name, class_path, labels_path, lst_filename_img, height, width):
+def groupDetectObjYoloV5Format(str_class_name, src_path, dst_path, height, width):
   dict_score = getClassName(str_class_name)
-  dict_obj_classified = getLabels(labels_path, dict_score)
+  #print(dict_score)
+  dict_obj_classified = getLabels(src_path, dict_score)
+  #print(dict_obj_classified.keys())
+  lst_filename_img = list(map(lambda x: str(x), Path(src_path).glob('images/*')))
   name_new_img = 0
   for filename in lst_filename_img:
     key_name = Path(filename).stem
-    print(key_name)
+    print(filename)
     try:
       img = cv2.imread(filename)
+      print('try')
     except:
+      print('except')
       pass
     try:
-      lst_X = cutImage(img, dict_obj_classified[key_name], height, width)
+      lst_X = cutBoxObjImage(img, dict_obj_classified[key_name], height, width)
       lst_y = dict_obj_classified[key_name]['score']
+      print('Good')
     except:
+      print('Error')
       lst_X, lst_y = [], []
 
     for x, y in zip(lst_X, lst_y):
-      filename_clasification = '{}/{}/{}.png'.format(class_path, y, name_new_img)
+      filename_clasification = '{}/{}/{}.png'.format(dst_path, y, name_new_img)
       cv2.imwrite(filename_clasification, x)
       name_new_img += 1
+
 
 
 

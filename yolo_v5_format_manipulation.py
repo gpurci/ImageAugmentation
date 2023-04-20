@@ -40,6 +40,63 @@ def getUniqueScore(str_score):
   unique_score = np.unique(np.array(lst_score))
   return unique_score
 
+
+
+
+#get a dictionary with all scores of an image for every image
+def getLabels(path, dict_score):
+  # path       - str: the path of labels yolo v5 format
+  # dict_score - dict: all scores for every image, keys - filename, elements - scores
+
+  #get all filename of labeled image
+  lst_score_file = list(dict_score.keys())
+
+  #get all filename of labels yolo v5 format
+  lst_file = list(Path(path).glob('labels/*'))
+  #cast to string
+  name_original_labels = list(map(lambda x: str(x), lst_file))
+  #truncate filename
+  name_score_labels = list(map(lambda x: str(Path(x).stem).split('.')[0][:-4], lst_file))
+
+  dict_obj_classified = {}
+  for key, filename in zip(name_score_labels, name_original_labels):
+    # check is key in score_file
+    if (key in lst_score_file):
+      filename_F = Path(filename).stem
+      lst_label, lst_center_x, lst_center_y, lst_w, lst_h = readLabelsYoloV5Format(filename)
+      dict_obj_classified[filename_F] = {'score': dict_score[key], 'labels':lst_label, 
+                                        'center_x':lst_center_x, 'center_y':lst_center_y, 
+                                        'w':lst_w, 'h':lst_h}
+    else:
+      pass
+  return dict_obj_classified
+
+
+#function to group the detected object by group of class 
+def groupDetectObj(str_class_name, class_path, labels_path, lst_filename, height, width):
+  dict_score = getClassName(str_class_name)
+  dict_obj_classified = getLabels(labels_path, dict_score)
+  name_new_img = 0
+  for filename in lst_filename:
+    key_name = Path(filename).stem
+    print(key_name)
+    try:
+      img = cv2.imread(filename)
+    except:
+      pass
+    try:
+      lst_X = cutImage(img, dict_obj_classified[key_name], height, width)
+      lst_y = dict_obj_classified[key_name]['score']
+    except:
+      lst_X, lst_y = [], []
+
+    for x, y in zip(lst_X, lst_y):
+      filename_clasification = '{}/{}/{}.png'.format(class_path, y, name_new_img)
+      cv2.imwrite(filename_clasification, x)
+      name_new_img += 1
+
+
+
 #read a file Yolo v5 format and get array of labels, centers, width and height
 def readLabelsYoloV5Format(filename):
   # filename - a txt file yolo v5 format
@@ -165,36 +222,6 @@ def transformCartesian2Center(x0, y0, x1, y1, height, width):
     # h - percent of height of located object
   return np_center_x, np_center_y, np_w, np_h
 
-
-
-#get a dictionary with all scores of an image for every image
-def getLabels(path, dict_score):
-  # path       - (Path object), the path of labels yolo v5 format
-  # dict_score - a dictionary with all scores for every image, keys - filename, elements - scores
-
-  #get all filename of labeled image
-  lst_score_file = list(dict_score.keys())
-
-  #get all filename of labels yolo v5 format
-  lst_file = list(path.glob('labels/*'))
-  #cast to string
-  name_original_labels = list(map(lambda x: str(x), lst_file))
-  #truncate filename
-  name_score_labels = list(map(lambda x: str(Path(x).stem).split('.')[0][:-4], lst_file))
-
-  dict_obj_classified = {}
-  for key, filename in zip(name_score_labels, name_original_labels):
-    # check is key in score_file
-    if (key in lst_score_file):
-      filename_F = Path(filename).stem
-      lst_label, lst_center_x, lst_center_y, lst_w, lst_h = readLabelsYoloV5Format(filename)
-      dict_obj_classified[filename_F] = {'score': dict_score[key], 'labels':lst_label, 
-                                        'center_x':lst_center_x, 'center_y':lst_center_y, 
-                                        'w':lst_w, 'h':lst_h}
-    else:
-      pass
-  return dict_obj_classified
-
 #
 def cutBoxObjImage(img, dict_obj_IO, height, width):
   lst_img = []
@@ -276,23 +303,6 @@ def cutBorder(path, labels_name):
       zip_coord = zip(lst_label[idxs_score], center_x, center_y, w, h)
       writeLabelsYoloV5Format(str(Path(filename_T).with_stem(tmp_stem)), zip_coord)
 
-#function to group the detected object by group of class 
-def groupDetectObj(dict_obj_classified, path, lst_filename, height, width):
-  name_new_img = 0
-  for filename in lst_filename:
-    key_name = Path(filename).stem
-    print(key_name)
-    try:
-      img = cv2.imread(filename)
-    except:
-      pass
-    try:
-      lst_X = cutImage(img, dict_obj_classified[key_name], height, width)
-      lst_y = dict_obj_classified[key_name]['score']
-    except:
-      lst_X, lst_y = [], []
 
-    for x, y in zip(lst_X, lst_y):
-      filename_clasification = '{}/{}/{}.png'.format(path, y, name_new_img)
-      cv2.imwrite(filename_clasification, x)
-      name_new_img += 1
+
+

@@ -77,7 +77,7 @@ def groupDetectObj(str_class_name, class_path, labels_path, lst_filename_img, he
   dict_score = getClassName(str_class_name)
   dict_obj_classified = getLabels(labels_path, dict_score)
   name_new_img = 0
-  for filename in lst_filename:
+  for filename in lst_filename_img:
     key_name = Path(filename).stem
     print(key_name)
     try:

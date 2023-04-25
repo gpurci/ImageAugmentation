@@ -9,26 +9,25 @@ class AugmentImage():
     self.lst_log = []         #list of log function
     
                               #0  = noise, 1 =  rotationAndNoise, 2 =  Wiener
-    self.lst_augmented_func = [self.noise, self.rotationAndNoise, self.Wiener]
+    self.lst_augmented_func = { 'noise':self.noise, 
+                                'rotation':self.rotationAndNoise, 
+                                'wiener':self.Wiener}
     self.roatation_range = (-180., 180)
+  
+  def getAugmentFunction(self):
+    return list(self.lst_augmented_func.keys())
   
   def setRotationAngel(self, low=-180., high=180.):
     self.roatation_range = (low, high)
   
-  def getAugmentFunc(self, idx_func):
-    '''
-       - idx_func: is index of augmented function
-       #0 - noise
-       #1 - rotationAndNoise
-       #2 - Wiener
-    '''
-    ls_str_func = ['noise', 'rotationAndNoise', 'Wiener']
-    if (idx_func < len(self.lst_augmented_func) and idx_func >= 0):
-      self.lst_log.append(ls_str_func[idx_func])
-      return self.lst_augmented_func[idx_func]
+  def getAugmentFunc(self, key_fn):
+    if (hasattr(self.lst_augmented_func, key_fn)):
+      self.lst_log.append(key_fn)
+      return self.lst_augmented_func[key_fn]
     else:
-      self.lst_log.append(ls_str_func[0])
-      return self.lst_augmented_func[0]
+      key_fn = list(self.lst_augmented_func.keys())[0]
+      self.lst_log.append(key_fn)
+      return self.lst_augmented_func[key_fn]
   
   #get a 2D array, disc of ones
   @staticmethod

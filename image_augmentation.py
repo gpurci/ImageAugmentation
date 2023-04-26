@@ -14,20 +14,20 @@ class AugmentImage():
                                 'wiener':self.Wiener}
     self.roatation_range = (-180., 180)
   
-  def getAugmentFunction(self):
+  def getAugmentFunc(self):
     return list(self.lst_augmented_func.keys())
   
   def setRotationAngel(self, low=-180., high=180.):
     self.roatation_range = (low, high)
   
-  def getAugmentFunc(self, key_fn):
-    if (hasattr(self.lst_augmented_func, key_fn)):
-      self.lst_log.append(key_fn)
-      return self.lst_augmented_func[key_fn]
+  def augment(self, key_fn):
+    if (key_fn in self.lst_augmented_func):
+      pass
     else:
       key_fn = list(self.lst_augmented_func.keys())[0]
-      self.lst_log.append(key_fn)
-      return self.lst_augmented_func[key_fn]
+      
+    self.lst_log.append(key_fn)
+    return self.lst_augmented_func[key_fn]
   
   #get a 2D array, disc of ones
   @staticmethod

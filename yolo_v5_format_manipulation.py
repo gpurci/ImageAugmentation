@@ -258,7 +258,7 @@ def cutBorder(path, labels_name):
     filename_T = path.joinpath('labels', Path(filename_F).stem)
     filename_T = filename_T.with_suffix(filename_T.suffix + '.txt')
     #get filename to generate new images and labels
-    filename = Path(filename_F).stem.split('.')[0]
+    filename = Path(filename_F).stem
     #index for new generated images and labels
     idx_name = 0
     #read image

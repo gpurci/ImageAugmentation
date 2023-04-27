@@ -244,7 +244,7 @@ def cutBoxObjImage(img, dict_obj_IO, height, width):
   return lst_img
 
 # crop a box from image of all classes
-def cutBorder(path, labels_name):
+def cutBorderYoloV5Format(path, labels_name):
   # path        - (Path object), the path of (train or test) yolo v5 format,
   #               labels has a group of box that include all classes to have
   #               

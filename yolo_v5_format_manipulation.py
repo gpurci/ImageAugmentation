@@ -251,7 +251,7 @@ def cutBorderYoloV5Format(path, labels_name):
   # labels_name - dict of labels name, keys name, elements index of name
 
   #get all filename of images
-  lst_file_F = list(map(lambda x: str(x), path.glob('images/*')))
+  lst_file_F = list(map(lambda x: str(x), Path(path).glob('images/*')))
 
   for filename_F in lst_file_F:
     #get all filename of labels

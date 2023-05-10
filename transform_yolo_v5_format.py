@@ -231,11 +231,11 @@ def translateYoloV5Format(src_path, dst_path, get_translate_point_fn, nbr_exampl
       idx_name += 1
       #save new image
       name_F = Path(filename_F).with_stem(tmp_stem).name
-      name_F = Path(dst_path).joinpath('images').with_name(name_F)
+      name_F = Path(dst_path).joinpath('images', 'name').with_name(name_F)
       cv2.imwrite(str(name_F), tmp_img)
       #save new label
       zip_coord = zip(new_label, center_x, center_y, w, h)
       name_T = Path(filename_T).with_stem(tmp_stem).name
-      name_T = Path(dst_path).joinpath('labels').with_name(name_T)
+      name_T = Path(dst_path).joinpath('labels', 'name').with_name(name_T)
       writeLabelsYoloV5Format(str(name_T), zip_coord)
 

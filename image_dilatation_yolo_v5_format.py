@@ -4,17 +4,13 @@ from pathlib import Path # file management
 
 from yolo_v5_format_manipulation import *
 
-
-
 # crop a box from image of all classes
-def cutBorderYoloV5Format(path, labels_name):
-  # path        - (Path object), the path of (train or test) yolo v5 format,
-  #               labels has a group of box that include all classes to have
-  #               
+def cutBorderYoloV5Format(src_path, dst_path, labels_name):
+  # path        - the path of (train or test) yolo v5 format,
   # labels_name - dict of labels name, keys name, elements index of name
 
   #get all filename of images
-  path = Path(path)
+  path = Path(src_path)
   lst_file_F = list(map(lambda x: str(x), path.glob('images/*')))
 
   for filename_F in lst_file_F:
@@ -68,12 +64,12 @@ def cutBorderYoloV5Format(path, labels_name):
       idx_name += 1
       #save new image
       name_F = Path(filename_F).with_stem(tmp_stem).name
-      name_F = Path(dst_path).joinpath('images').with_name(name_F)
+      name_F = Path(dst_path).joinpath('images', 'name').with_name(name_F)
       cv2.imwrite(str(name_F), tmp_img)
       #save new label
       zip_coord = zip(new_label, center_x, center_y, w, h)
       name_T = Path(filename_T).with_stem(tmp_stem).name
-      name_T = Path(dst_path).joinpath('labels').with_name(name_T)
+      name_T = Path(dst_path).joinpath('labels', 'name').with_name(name_T)
       writeLabelsYoloV5Format(str(name_T), zip_coord)
       
 
@@ -136,14 +132,14 @@ def imageDilatationYoloV5Format(src_path, dst_path, per_x0, per_y0, per_x1, per_
                                                            new_x1, new_y1, 
                                                            tmp_img.shape[0], tmp_img.shape[1])
       #generate new stem for image and label 
-      tmp_stem = '{}{}{}'.format(filename, '.split_', idx_name)
+      tmp_stem = '{}{}{}'.format(filename, '.dil_', idx_name)
       idx_name += 1
       #save new image
       name_F = Path(filename_F).with_stem(tmp_stem).name
-      name_F = Path(dst_path).joinpath('images').with_name(name_F)
+      name_F = Path(dst_path).joinpath('images', 'name').with_name(name_F)
       cv2.imwrite(str(name_F), tmp_img)
       #save new label
       zip_coord = zip(lst_label, center_x, center_y, w, h)
       name_T = Path(filename_T).with_stem(tmp_stem).name
-      name_T = Path(dst_path).joinpath('labels').with_name(name_T)
+      name_T = Path(dst_path).joinpath('labels', 'name').with_name(name_T)
       writeLabelsYoloV5Format(str(name_T), zip_coord)

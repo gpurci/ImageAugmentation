@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 from pathlib import Path
 
+from ImageAugmentation.yolo_v5_format_manipulation import *
+
 def test_rot_points(filename_F, angle, scale):
   #get all filename of labels
   root_data = list(Path(filename_F).parents)[1]

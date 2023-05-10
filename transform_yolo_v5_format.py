@@ -56,8 +56,11 @@ def validObjAfterRotation(lst_label, l_x0, l_y0, l_x1, l_y1, height, width):
   print('unique_idx', unique_idx)
 
   idxs_valid = np.array([i for i in range(l_x0.shape[0]) if i not in unique_idx])
+  if (idxs_valid.shape[0] != 0):
+    lst_label, l_x0, l_y0 = lst_label[idxs_valid], l_x0[idxs_valid], l_y0[idxs_valid]
+    l_x1, l_y1 = l_x1[idxs_valid], l_y1[idxs_valid]
   
-  return lst_label[idxs_valid], l_x0[idxs_valid], l_y0[idxs_valid], l_x1[idxs_valid], l_y1[idxs_valid]
+  return lst_label, l_x0, l_y0, l_x1, l_y1
 
 
 

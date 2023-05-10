@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from pathlib import Path # file management
 
-from yolo_v5_format_manipulation import *
+from ImageAugmentation.yolo_v5_format_manipulation import *
 
 # crop a box from image of all classes
 def cutBorderYoloV5Format(src_path, dst_path, labels_name):

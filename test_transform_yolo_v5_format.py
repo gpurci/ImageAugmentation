@@ -170,7 +170,6 @@ def test_afinne_rotationCartesianCoordYoloV5Format(filename_F, pts1, pts2):
 
 
 
-
 def test_validObjAfterRotation(filename_F, test_filename, angle, scale):
   #get all filename of labels
   root_data = list(Path(filename_F).parents)[1]
@@ -224,3 +223,50 @@ def test_validObjAfterRotation(filename_F, test_filename, angle, scale):
 
   cv2_imshow(img)
   cv2.imwrite(test_filename, img)
+  
+  
+
+def test_translateYoloV5Format(src_path, dst_path):
+  #get all filename of labels yolo v5 format
+  path = Path(src_path)
+  #get all filename of images
+  lst_file_F = list(map(lambda x: str(x), path.glob('images/*')))
+  for filename_F in lst_file_F:
+    #get all filename of labels
+    filename_T = path.joinpath('labels', Path(filename_F).stem)
+    filename_T = filename_T.with_suffix(filename_T.suffix + '.txt')
+    #get filename to generate new images and labels
+    filename = Path(filename_F).stem
+    #index for new generated images and labels
+    idx_name = 0
+    #read image
+    img = cv2.imread(filename_F)
+    height, width, channels = img.shape
+    #read label
+    lst_label, lst_center_x, lst_center_y, lst_w, lst_h = readLabelsYoloV5Format(filename_T)
+    #transform yolo v5 format to cartesian format
+    l_x0, l_y0, l_x1, l_y1 = transformCenter2Cartesian( lst_center_x, 
+                                                        lst_center_y, 
+                                                        lst_w, 
+                                                        lst_h, 
+                                                        height, width)
+    
+    for x0, y0, x1, y1 in zip(l_x0, l_y0, l_x1, l_y1):
+      # Start coordinate
+      # represents the top left corner of rectangle
+      start_point = (int(x0), int(y0))
+        
+      # Ending coordinate
+      # represents the bottom right corner of rectangle
+      end_point = (int(x1), int(y1))
+      # Red color in BGR
+      color = (0, 0, 255)
+      # Line thickness of 2 px
+      thickness = 2
+      # Draw a rectangle with red line borders of thickness of 2 px
+      print(start_point, end_point)
+      img = cv2.rectangle(img, start_point, end_point, color, thickness)
+      #save new image
+      name_F = Path(filename_F).name
+      name_F = Path(dst_path).joinpath('name').with_name(name_F)
+      cv2.imwrite(str(name_F), img)

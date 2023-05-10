@@ -6,9 +6,7 @@ from yolo_v5_format_manipulation import *
 
 # crop a box from image of all classes
 def cutBorderYoloV5Format(src_path, dst_path, labels_name):
-  # path        - (Path object), the path of (train or test) yolo v5 format,
-  #               labels has a group of box that include all classes to have
-  #               
+  # path        - the path of (train or test) yolo v5 format,
   # labels_name - dict of labels name, keys name, elements index of name
 
   #get all filename of images

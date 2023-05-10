@@ -208,14 +208,14 @@ def translateYoloV5Format(src_path, dst_path, get_translate_point_fn, nbr_exampl
       # calculate transform matrix
       rotate_matrix = cv2.getAffineTransform(pts1, pts2)
       # add pading to image
-      img = np.pad(img, ((p_y0, p_y1), (p_x0, p_x1), (0, 0)), constant_values=205)
-      height, width, channels = img.shape
+      tmp_img = np.pad(img, ((p_y0, p_y1), (p_x0, p_x1), (0, 0)), constant_values=205)
+      height, width, channels = tmp_img.shape
       # transform image
-      img = cv2.warpAffine( src=img,
-                            M=rotate_matrix,
-                            dsize=(width, height))
+      tmp_img = cv2.warpAffine( src=tmp_img,
+                                M=rotate_matrix,
+                                dsize=(width, height))
       # cut border of image after affine transform
-      img = img[c_y0:c_y1, c_x0:c_x1]
+      tmp_img = tmp_img[c_y0:c_y1, c_x0:c_x1]
       # calculate coordinate of object from image after affine tranformation
       new_x0, new_y0, new_x1, new_y1 = l_x0+p_x0, l_y0+p_y0, l_x1+p_x0, l_y1+p_y0
       new_x0, new_y0, new_x1, new_y1 = rotationCartesianCoord(new_x0, new_y0, new_x1, new_y1, rotate_matrix)

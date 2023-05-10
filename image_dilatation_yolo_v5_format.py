@@ -1,3 +1,8 @@
+import numpy as np
+import cv2
+from pathlib import Path # file management
+
+from yolo_v5_format_manipulation import *
 
 
 
@@ -9,6 +14,7 @@ def cutBorderYoloV5Format(path, labels_name):
   # labels_name - dict of labels name, keys name, elements index of name
 
   #get all filename of images
+  path = Path(path)
   lst_file_F = list(map(lambda x: str(x), path.glob('images/*')))
 
   for filename_F in lst_file_F:
@@ -69,6 +75,7 @@ def cutBorderYoloV5Format(path, labels_name):
       name_T = Path(filename_T).with_stem(tmp_stem).name
       name_T = Path(dst_path).joinpath('labels').with_name(name_T)
       writeLabelsYoloV5Format(str(name_T), zip_coord)
+      
 
 
 

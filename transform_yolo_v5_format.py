@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from pathlib import Path # file management
 
-from yolo_v5_format_manipulation import *
+from ImageAugmentation.yolo_v5_format_manipulation import *
 
 #function that calculates the updated location of one coordinate
 #after rotation

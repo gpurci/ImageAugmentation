@@ -150,12 +150,12 @@ def getTransformPoints(height, width, nbr_example_per_image):
     x, y = center
     pts1 = np.float32([[x, y], [x+200, y], [x+200, y+200]])
     pts2 = np.float32([[x, y], [x+200, y], [x+200, y+200]])
-    pts2[0][0] = np.float32(np.random.randint(low=x-50 , high=x+50 , size=1)[0])
-    pts2[0][1] = np.float32(np.random.randint(low=y-50 , high=y+50 , size=1)[0])
-    pts2[1][0] = np.float32(np.random.randint(low=x+150, high=x+250, size=1)[0])
-    pts2[1][1] = np.float32(np.random.randint(low=y-50 , high=y+50 , size=1)[0])
-    pts2[2][0] = np.float32(np.random.randint(low=x+150, high=x+250, size=1)[0])
-    pts2[2][1] = np.float32(np.random.randint(low=y+150, high=y+250, size=1)[0])
+    pts2[0][0] = np.float32(np.random.randint(low=x-25 , high=x+25 , size=1)[0])
+    pts2[0][1] = np.float32(np.random.randint(low=y-25 , high=y+25 , size=1)[0])
+    pts2[1][0] = np.float32(np.random.randint(low=x+175, high=x+225, size=1)[0])
+    pts2[1][1] = np.float32(np.random.randint(low=y-25 , high=y+25 , size=1)[0])
+    pts2[2][0] = np.float32(np.random.randint(low=x+175, high=x+225, size=1)[0])
+    pts2[2][1] = np.float32(np.random.randint(low=y+175, high=y+225, size=1)[0])
     lst_pts1.append(pts1)
     lst_pts2.append(pts2)
 

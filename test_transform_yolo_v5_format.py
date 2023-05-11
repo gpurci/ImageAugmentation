@@ -228,7 +228,7 @@ def test_validObjAfterRotation(filename_F, test_filename, angle, scale):
   
   
 
-def test_translateYoloV5Format(src_path, dst_path):
+def rectangleYoloV5Format(src_path, dst_path):
   #get all filename of labels yolo v5 format
   path = Path(src_path)
   #get all filename of images

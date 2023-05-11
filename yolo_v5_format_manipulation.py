@@ -244,7 +244,7 @@ def cutBoxObjImage(img, dict_obj_IO, height, width):
   return lst_img
 
 # crop a box from image of all classes
-def cutBorderYoloV5Format(path, labels_name):
+def manualCropYoloV5Format(path, labels_name):
   # path        - (Path object), the path of (train or test) yolo v5 format,
   #               labels has a group of box that include all classes to have
   #               
@@ -309,7 +309,7 @@ def cutBorderYoloV5Format(path, labels_name):
 
 
 
-def splitBorderYoloV5Format(src_path, per_x0, per_y0, per_x1, per_y1, nbr_example_per_image):
+def randCropYoloV5Format(src_path, per_x0, per_y0, per_x1, per_y1, nbr_example_per_image):
   # src_path - source path
   # per_x0 - cut percent of left side of image from row image
   # per_y0 - cut percent of top side of image from row image

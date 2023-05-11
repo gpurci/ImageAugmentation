@@ -5,7 +5,7 @@ from pathlib import Path # file management
 from ImageAugmentation.yolo_v5_format_manipulation import *
 
 # crop a box from image of all classes
-def cutBorderYoloV5Format(src_path, dst_path, labels_name):
+def manualCropYoloV5Format(src_path, dst_path, labels_name):
   # path        - the path of (train or test) yolo v5 format,
   # labels_name - dict of labels name, keys name, elements index of name
 
@@ -75,7 +75,7 @@ def cutBorderYoloV5Format(src_path, dst_path, labels_name):
 
 
 
-def imageDilatationYoloV5Format(src_path, dst_path, per_x0, per_y0, per_x1, per_y1, nbr_example_per_image):
+def randCropYoloV5Format(src_path, dst_path, per_x0, per_y0, per_x1, per_y1, nbr_example_per_image):
   # src_path - source path
   # per_x0 - cut percent of left side of image from row image
   # per_y0 - cut percent of top side of image from row image

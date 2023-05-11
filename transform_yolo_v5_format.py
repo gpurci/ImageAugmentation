@@ -114,9 +114,6 @@ def getCutBorderAfterAffineTransform(height, width, rotate_matrix):
 
 
 def getRotPoints(height, width, nbr_example_per_image):
-    center_s = tuple(zip(np.random.randint(low=0, high=height, size=nbr_example_per_image, dtype=int), 
-                np.random.randint(low=0, high=width, size=nbr_example_per_image, dtype=int)))
-    
     class_angle = np.random.randint(low=0, high=3, size=nbr_example_per_image)
     angle_s_0  = np.random.uniform(low=-11., high= 11., size=nbr_example_per_image)
     angle_s_1  = np.random.uniform(low= 85., high= 95., size=nbr_example_per_image)
@@ -126,12 +123,13 @@ def getRotPoints(height, width, nbr_example_per_image):
     map_fn = map(lambda inputs: inputs[0][inputs[1]], zip(angle_s_m, class_angle))
     angle_s = np.array(list(map_fn))
 
+    center = (int(width / 2), int(height / 2))
+    center_x, center_y = int(width / 2), int(height / 2)
     lst_pts1 = []
     lst_pts2 = []
-    for center, angle in zip(center_s, angle_s):
-      x, y = center
-      pts1 = np.float32([[x, y], [x+200, y], [x+200, y+200]])
-      rotate_matrix = cv2.getRotationMatrix2D(center=(int(center[0]), int(center[1])), 
+    pts1 = np.float32([[center_x, center_y], [center_x+200, center_y], [center_x+200, center_y+200]])
+    for angle in angle_s:
+      rotate_matrix = cv2.getRotationMatrix2D(center=center, 
                                               angle=angle, 
                                               scale=1.)
       
@@ -144,21 +142,19 @@ def getRotPoints(height, width, nbr_example_per_image):
 
 
 def getTransformPoints(height, width, nbr_example_per_image):
-  center_s = tuple(zip(np.random.randint(low=0, high=height, size=nbr_example_per_image, dtype=int), 
-              np.random.randint(low=0, high=width, size=nbr_example_per_image, dtype=int)))
-  
   lst_pts1 = []
   lst_pts2 = []
-  for center in center_s:
-    x, y = center
-    pts1 = np.float32([[x, y], [x+200, y], [x+200, y+200]])
-    pts2 = np.float32([[x, y], [x+200, y], [x+200, y+200]])
-    pts2[0][0] = np.float32(np.random.randint(low=x-25 , high=x+25 , size=1)[0])
-    pts2[0][1] = np.float32(np.random.randint(low=y-25 , high=y+25 , size=1)[0])
-    pts2[1][0] = np.float32(np.random.randint(low=x+175, high=x+225, size=1)[0])
-    pts2[1][1] = np.float32(np.random.randint(low=y-25 , high=y+25 , size=1)[0])
-    pts2[2][0] = np.float32(np.random.randint(low=x+175, high=x+225, size=1)[0])
-    pts2[2][1] = np.float32(np.random.randint(low=y+175, high=y+225, size=1)[0])
+  center = (int(width / 2), int(height / 2))
+  center_x, center_y = int(width / 2), int(height / 2)
+  pts1 = np.float32([[center_x, center_y], [center_x+200, center_y], [center_x+200, center_y+200]])
+  pts2 = np.float32([[center_x, center_y], [center_x+200, center_y], [center_x+200, center_y+200]])
+  for _ in range(nbr_example_per_image):
+    pts2[0][0] = np.float32(np.random.randint(low=center_x-10 , high=center_x+10 , size=1)[0])
+    pts2[0][1] = np.float32(np.random.randint(low=center_y-10 , high=center_y+10 , size=1)[0])
+    pts2[1][0] = np.float32(np.random.randint(low=center_x+190, high=center_x+210, size=1)[0])
+    pts2[1][1] = np.float32(np.random.randint(low=center_y-10 , high=center_y+10 , size=1)[0])
+    pts2[2][0] = np.float32(np.random.randint(low=center_x+190, high=center_x+210, size=1)[0])
+    pts2[2][1] = np.float32(np.random.randint(low=center_y+190, high=center_y+210, size=1)[0])
     lst_pts1.append(pts1)
     lst_pts2.append(pts2)
 
@@ -166,7 +162,7 @@ def getTransformPoints(height, width, nbr_example_per_image):
 
 
 
-def translateYoloV5Format(src_path, dst_path, get_translate_point_fn, nbr_example_per_image):
+def affineTranslationYoloV5Format(src_path, dst_path, get_translate_point_fn, nbr_example_per_image):
   # src_path - source path
   # nbr_example_per_image - number of images per row image
 
